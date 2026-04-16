@@ -66,8 +66,25 @@ async function basicSearch() {
 
         console.log(passwords);
 
-        
+        await driver.findElement(By.id('user-name')).sendKeys(usernames[0]);
 
+        await driver.findElement(By.id('password')).sendKeys(passwords[0]);
+
+        await driver.findElement(By.css('input[type="submit"]')).click(); 
+
+        await driver.wait(
+            until.elementLocated(By.className('inventory_list')),
+            10000
+        );
+
+
+        let products = await driver.findElements(By.className('inventory_item'));
+
+        for (let product of products) {
+            let name = await product.findElement(By.className('inventory_item_name')).getText();
+
+            console.log(name);
+        }
 
     } catch (e) {
         console.log("ERROR:", e);
